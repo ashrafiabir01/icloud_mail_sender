@@ -1,10 +1,3 @@
-Thanks! Since your script sends emails via **iCloud SMTP (`smtp.mail.me.com`)**, I’ve updated the `README.md` to reflect that clearly and tailored the wording for **iCloud Mail Sender** use.
-
----
-
-### ✅ Updated `README.md` (for iCloud Mail Sender with License System)
-
-```markdown
 # 🍎 iCloud SMTP Bulk Email Sender with License System
 
 A powerful multithreaded **bulk email sender using iCloud Mail** (`smtp.mail.me.com`).  
@@ -12,16 +5,18 @@ Includes content randomization, attachment support, and a hardware-locked licens
 
 ## ✉️ Features
 
-- 🔐 **License-based access** — only authorized users (UUID-based)
-- 🧵 **Multithreaded** email sending
+- 🔐 License-based access (hardware-locked)
+- 🧵 Multithreaded email sending
 - 🗂️ Supports multiple email formats:
   - Plain Text
-  - HTML Content
-  - Image or PDF attachments
-  - Combined HTML + Attachment
+  - HTML Body
+  - Text + Image Attachment
+  - Text + PDF Attachment
+  - HTML + Image
+  - HTML + PDF
 - 📄 Dynamic subject & sender name selection
-- 🧠 Automatic logging and retry for failed emails
-- 📑 Modular folder-based body/attachment structure
+- 📥 SMTP rotation and failure logging
+- 🔁 Failed emails are retried
 
 ---
 
@@ -31,110 +26,94 @@ Includes content randomization, attachment support, and a hardware-locked licens
 
 📂 Project/
 ├── main.py                 # Main script
-├── auth.py                 # License key system (UUID-based)
-├── smtp\_credentials.txt    # Your iCloud SMTP credentials (email\:password)
+├── auth.py                 # License system (UUID-based)
+├── smtp\_credentials.txt    # iCloud SMTP credentials (email\:password)
 ├── to\_emails.txt           # Target email list
-├── subject.txt             # Subjects (randomly picked)
-├── sendername.txt          # Friendly sender names
+├── subject.txt             # Subjects pool
+├── sendername.txt          # Display names
 ├── reply\_mail.txt          # Reply-to email
 ├── html/                   # HTML bodies
 ├── body/                   # Plain text bodies
-├── img/                    # Images for attachment
-├── pdf/                    # PDFs for attachment
-├── email\_log.txt           # Successful email logs
-├── failed\_smtp\_log.txt     # Bad SMTPs
+├── img/                    # Images
+├── pdf/                    # PDFs
+├── email\_log.txt           # Sent email logs
+├── failed\_smtp\_log.txt     # Invalid SMTPs
 ├── failed\_email\_log.txt    # Failed deliveries
-└── to\_emails\_failed.txt    # Failed emails (re-queued)
+└── to\_emails\_failed.txt    # Failed emails for retry
 
 ````
 
 ---
 
-## ⚙️ How It Works
-
-1. Reads iCloud SMTP credentials from `smtp_credentials.txt`
-2. Picks a random subject and sender name
-3. Sends customized emails using multiple content formats
-4. Logs delivery status for each recipient
-5. Retries failed sends at the end
-
----
-
-## 🧪 Usage
+## 🧪 How to Use
 
 1. Edit your files:
-   - `smtp_credentials.txt` — Format: `icloud_email@icloud.com:app-specific-password`
-   - `to_emails.txt` — Recipients list (one per line)
-   - `subject.txt` — Subjects pool
-   - `sendername.txt` — Random display names (for `From:`)
-   - `reply_mail.txt` — Your reply-to email address
-2. Place body/HTML/attachments in respective folders
-3. Run:
+   - `smtp_credentials.txt`: `icloud_email@icloud.com:app-password`
+   - `to_emails.txt`: Recipients list
+   - `subject.txt`: Multiple subjects (one per line)
+   - `sendername.txt`: Friendly sender names
+   - `reply_mail.txt`: Reply-to email address
+2. Add your message content:
+   - `body/` – plain text files
+   - `html/` – HTML templates
+   - `img/` – image files
+   - `pdf/` – PDF files
+3. Run the script:
+
 ```bash
 python main.py
 ````
 
-4. Choose email format (1–6)
+4. Choose the email format:
+
+```
+1 = Plain Text
+2 = HTML Body
+3 = Text + Image
+4 = Text + PDF
+5 = HTML + Image
+6 = HTML + PDF
+```
+
 5. Set sleep interval between batches
 
 ---
 
-## 🔐 License Protection (UUID-based)
+## 🔐 License System
 
-On first run:
+This tool uses a **hardware-bound license key system**:
 
-* A **hardware-based UUID hash** is generated and shown
-* This is **copied to clipboard**
-* Admin must **add this key to the remote server** (used in `auth.py`)
-* Only verified machines can send emails
+- Your unique device UUID is hashed and copied to clipboard
+- Admin must add your key to the remote server
+- Unauthorized devices will be denied access
 
-> Key verification is done via:
-
-```
-https://yourhost.com/view/data/raw
-```
+> License validation checks:
+> `https://yourhost.com/view/data/raw`
 
 ---
 
-## 🧾 Dependencies
+## 💻 Requirements
 
-Install required packages:
+- Python 3.7+
+- Windows OS (uses `wmic`)
+- Install required packages:
 
 ```bash
 pip install pyperclip
 ```
 
-Other requirements:
-
-* Windows (due to `wmic`)
-* Python 3.7+
-
 ---
 
-## 📢 Disclaimer
+## ⚠️ Disclaimer
 
-This tool is made for **educational and authorized business use only**.
-**Do not use for unsolicited spam** or you may violate iCloud’s and local regulations.
+This software is for **educational or authorized business use only**.
+Do **not** use for unsolicited bulk email ("spam") as it violates both iCloud’s policy and anti-spam laws.
 
 ---
 
 ## 👤 Credits
 
-Developed by: **Ashrafi Khandaker Abir**
-Website: [https://devabir.com](https://devabir.com)
+**Developer**: Ashrafi Khandaker Abir
+🌐 [https://devabir.com](https://devabir.com)
 
 ---
-
-## 🔗 Connect
-
-For license approvals or support:
-📧 **[admin@devabir.com](mailto:admin@devabir.com)**
-
----
-
-```
-
----
-
-Would you like me to generate a sample `smtp_credentials.txt`, `subject.txt`, and `sendername.txt` to go with it?
-```
